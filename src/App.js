@@ -5,18 +5,24 @@ import { getFirestore, doc, getDoc, addDoc, collection, onSnapshot, query, where
 
 // Define Firebase configuration (will be populated by Canvas runtime)
 // Explicitly declare these variables to satisfy ESLint during local build.
+// eslint-disable-next-line no-var
+var __firebase_config; // Declare as var to allow global injection by Canvas
 let firebaseConfig = {};
 if (typeof __firebase_config !== 'undefined') {
     firebaseConfig = JSON.parse(__firebase_config);
 }
 
 // Define app ID (will be populated by Canvas runtime)
+// eslint-disable-next-line no-var
+var __app_id; // Declare as var to allow global injection by Canvas
 let appId = 'default-app-id';
 if (typeof __app_id !== 'undefined') {
     appId = __app_id;
 }
 
 // Define initial auth token (will be populated by Canvas runtime)
+// eslint-disable-next-line no-var
+var __initial_auth_token; // Declare as var to allow global injection by Canvas
 let initialAuthToken = null;
 if (typeof __initial_auth_token !== 'undefined') {
     initialAuthToken = __initial_auth_token;

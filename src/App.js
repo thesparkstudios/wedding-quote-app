@@ -3,28 +3,25 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, addDoc, collection, onSnapshot, query, where } from 'firebase/firestore';
 
-// Define Firebase configuration (will be populated by Vercel Environment Variables)
-// For local development, you might use a .env file or hardcode for testing.
-// In Vercel, these will be injected from your environment variables.
+// Define Firebase configuration (will be populated by Vercel Environment Variables, prefixed with REACT_APP_)
 let firebaseConfig = {
-    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
-    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
-    // measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID // Uncomment if you included this
+    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    // measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID // Uncomment if you included this
 };
 
-// Define app ID (will be populated by Canvas runtime or default)
-// The Canvas environment still needs these for its specific runtime.
+// Define app ID for Firestore path (will be populated by Canvas runtime or default/Vercel Env Var)
 // eslint-disable-next-line no-var
 var __app_id;
-let appId = 'default-app-id';
+let appId = 'default-app-id'; // Default value for local dev or if no env var
 if (typeof __app_id !== 'undefined') {
-    appId = __app_id;
-} else if (process.env.NEXT_PUBLIC_APP_ID_FOR_FIRESTORE) { // Use a dedicated env var for Vercel if needed
-    appId = process.env.NEXT_PUBLIC_APP_ID_FOR_FIRESTORE;
+    appId = __app_id; // Value injected by Canvas runtime
+} else if (process.env.REACT_APP_APP_ID_FOR_FIRESTORE) { // Use a dedicated env var for Vercel for Firestore path
+    appId = process.env.REACT_APP_APP_ID_FOR_FIRESTORE;
 }
 
 
@@ -35,8 +32,8 @@ let initialAuthToken = null;
 if (typeof __initial_auth_token !== 'undefined') {
     initialAuthToken = __initial_auth_token;
 }
-// No Vercel env var for this, as it's a specific Canvas auth token.
-// Vercel will handle auth (e.g., anonymous) differently for public access.
+// No Vercel env var needed for this, as it's a specific Canvas auth token.
+// Vercel deployment will handle Firebase auth (e.g., anonymous) directly.
 
 // Initialize Firebase App
 const app = initializeApp(firebaseConfig);

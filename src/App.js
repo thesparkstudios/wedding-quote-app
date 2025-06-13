@@ -3,30 +3,40 @@ import { initializeApp } from 'firebase/app';
 import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc, addDoc, collection, onSnapshot, query, where } from 'firebase/firestore';
 
-// Define Firebase configuration (will be populated by Canvas runtime)
-// Explicitly declare these variables to satisfy ESLint during local build.
-// eslint-disable-next-line no-var
-var __firebase_config; // Declare as var to allow global injection by Canvas
-let firebaseConfig = {};
-if (typeof __firebase_config !== 'undefined') {
-    firebaseConfig = JSON.parse(__firebase_config);
-}
+// Define Firebase configuration (will be populated by Vercel Environment Variables)
+// For local development, you might use a .env file or hardcode for testing.
+// In Vercel, these will be injected from your environment variables.
+let firebaseConfig = {
+    apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+    authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,
+    messagingSenderId: process.env.NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+    appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
+    // measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID // Uncomment if you included this
+};
 
-// Define app ID (will be populated by Canvas runtime)
+// Define app ID (will be populated by Canvas runtime or default)
+// The Canvas environment still needs these for its specific runtime.
 // eslint-disable-next-line no-var
-var __app_id; // Declare as var to allow global injection by Canvas
+var __app_id;
 let appId = 'default-app-id';
 if (typeof __app_id !== 'undefined') {
     appId = __app_id;
+} else if (process.env.NEXT_PUBLIC_APP_ID_FOR_FIRESTORE) { // Use a dedicated env var for Vercel if needed
+    appId = process.env.NEXT_PUBLIC_APP_ID_FOR_FIRESTORE;
 }
 
-// Define initial auth token (will be populated by Canvas runtime)
+
+// Define initial auth token (will be populated by Canvas runtime or null)
 // eslint-disable-next-line no-var
-var __initial_auth_token; // Declare as var to allow global injection by Canvas
+var __initial_auth_token;
 let initialAuthToken = null;
 if (typeof __initial_auth_token !== 'undefined') {
     initialAuthToken = __initial_auth_token;
 }
+// No Vercel env var for this, as it's a specific Canvas auth token.
+// Vercel will handle auth (e.g., anonymous) differently for public access.
 
 // Initialize Firebase App
 const app = initializeApp(firebaseConfig);

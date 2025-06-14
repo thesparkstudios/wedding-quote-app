@@ -11,7 +11,7 @@ let firebaseConfig = {
     storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
     messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_FIREBASE_APP_ID,
-    // measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID // Uncomment if you included this
+    measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
 };
 
 // Define app ID for Firestore path (will be populated by Canvas runtime or default/Vercel Env Var)
